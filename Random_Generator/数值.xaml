@@ -3,20 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Random_Generator.数值"
              Title="数值">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<Entry x:Name="最小值" Grid.Column="0" Grid.Row="0" Placeholder="最小值"/>
-	</Grid>
+	<VerticalStackLayout>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Entry x:Name="最小值" Grid.Column="0" Placeholder="最小值" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
+			<Entry x:Name="最大值" Grid.Column="1" Placeholder="最大值" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
+		</Grid>
+		<HorizontalStackLayout>
+			<CheckBox x:Name="浮点" CheckedChanged="浮点_CheckedChanged"/>
+			<Label Text="浮点" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+		<HorizontalStackLayout>
+			<CheckBox x:Name="平均值CheckBox"/>
+			<Entry x:Name="平均值Entry" Placeholder="平均值" BindingContext="{x:Reference 平均值CheckBox}" IsEnabled="{Binding Mode=OneWay,Path=IsChecked}" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
+		</HorizontalStackLayout>
+		<HorizontalStackLayout>
+			<CheckBox x:Name="标准差CheckBox"/>
+			<Entry x:Name="标准差Entry" Placeholder="标准差" BindingContext="{x:Reference 标准差CheckBox}" IsEnabled="{Binding Mode=OneWay,Path=IsChecked}" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
+		</HorizontalStackLayout>
+		<HorizontalStackLayout>
+			<CheckBox x:Name="无重复" CheckedChanged="无重复_CheckedChanged"/>
+			<Label Text="无重复" VerticalTextAlignment="Center"/>
+			<Entry x:Name="生成个数" Placeholder="生成个数" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
+		</HorizontalStackLayout>
+		<HorizontalStackLayout>
+			<Button x:Name="生成" Text="生成" Clicked="生成_Clicked"/>
+			<Button x:Name="复制到剪贴板" Text="复制到剪贴板"/>
+		</HorizontalStackLayout>
+		<Label x:Name="生成结果" LineBreakMode="WordWrap"/>
+	</VerticalStackLayout>
 </ContentPage>
