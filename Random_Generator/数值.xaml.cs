@@ -1,13 +1,20 @@
 namespace Random_Generator;
-using static 算法;
-using static 数值操作;
 using static Preferences;
 using MathNet.Numerics.Distributions;
 using System.Numerics;
-using System.Linq.Expressions;
 
 public partial class 数值 : ContentPage
 {
+	private static class 特化器<T>
+	{
+		internal static Func<string, T> Parse;
+	}
+	static 数值()
+	{
+		特化器<uint>.Parse = uint.Parse;
+		特化器<double>.Parse = double.Parse;
+		特化器<BigInteger>.Parse = BigInteger.Parse;
+	}
 	public 数值()
 	{
 		InitializeComponent();
@@ -23,8 +30,12 @@ public partial class 数值 : ContentPage
 		生成结果.Text = Default.Get("数值.生成结果", "");
 		自动清除记录.IsChecked = Default.Get("数值.自动清除记录", true);
 	}
+	private static T Parse<T>(string 值)
+	{
+		return 特化器<T>.Parse(值);
+	}
 	//返回解析是否失败
-	private T 数值解析<T>(Entry 条目)
+	private static T 数值解析<T>(Entry 条目)
 	{
 		T 返回值;
 		try
