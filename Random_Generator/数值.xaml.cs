@@ -38,12 +38,20 @@ public partial class 数值 : ContentPage
 		Default.Set("数值." + 条目.Placeholder, 条目.Text);
 		return 返回值;
 	}
-	private string 枚举随机数<T>(IEnumerable<T> 枚举器)
+	private static string 枚举随机数<T>(IEnumerable<T> 枚举器)
 	{
 		System.Text.StringBuilder 拼接器 = new System.Text.StringBuilder();
 		foreach (T a in 枚举器)
 			拼接器.Append(a.ToString()).Append(' ');
 		return 拼接器.ToString();
+	}
+	private static readonly Random 随机生成器 = new();
+	private static IEnumerable<double> 连续指数分布(double 最小值, double 最大值, double 平均值)
+	{
+		double 斜率 = 最大值 - 最小值;
+		double 指数 = 平均值 == 最小值 ? double.PositiveInfinity : (最大值 - 平均值) / (平均值 - 最小值);
+		for (; ; )
+			yield return Math.Pow(随机生成器.NextDouble(), 指数) * 斜率 + 最小值;
 	}
 	private IEnumerable<double> 浮点随机数()
 	{
@@ -81,7 +89,7 @@ public partial class 数值 : ContentPage
 		try
 		{
 			if (浮点.IsChecked)
-				生成结果string = 枚举随机数(浮点随机数());
+				生成结果string = 数值.枚举随机数(浮点随机数());
 			else
 			{
 				BigInteger 最小值BigInteger = 数值解析<BigInteger>(最小值);
@@ -101,7 +109,7 @@ public partial class 数值 : ContentPage
 						else
 							整数值 = MathNet.Numerics.Random.RandomExtensions.NextInt32Sequence(随机生成器, 最小值int, 最大值int + 1).Take(生成个数int);
 					}
-					生成结果string = 枚举随机数(整数值);
+					生成结果string = 数值.枚举随机数(整数值);
 				}
 				else
 				{
@@ -116,7 +124,7 @@ public partial class 数值 : ContentPage
 						else
 							整数值 = MathNet.Numerics.Random.RandomExtensions.NextBigIntegerSequence(随机生成器, 最小值BigInteger, 最大值BigInteger + 1).Take(生成个数int);
 					}
-					生成结果string = 枚举随机数(整数值);
+					生成结果string = 数值.枚举随机数(整数值);
 				}
 			}
 		}
