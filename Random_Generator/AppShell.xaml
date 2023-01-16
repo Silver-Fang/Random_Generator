@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="Random_Generator.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Random_Generator"
-    Shell.FlyoutBehavior="Disabled">
-	<ShellContent
-        Title="数值"
-        ContentTemplate="{DataTemplate local:数值}"
-        Route="数值" />
+	x:Class="Random_Generator.AppShell"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Random_Generator" Navigated="Shell_Navigated">
+	<ShellContent Title="数值" ContentTemplate="{DataTemplate local:数值}" Route="数值" Icon="number.png"/>
+	<ShellContent Title="密码" ContentTemplate="{DataTemplate local:密码}" Route="密码" Icon="password.png"/>
 </Shell>

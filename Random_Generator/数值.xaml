@@ -47,5 +47,6 @@
 			<Label Text="自动清除记录" VerticalTextAlignment="Center"/>
 		</HorizontalStackLayout>
 		<Label x:Name="生成结果" LineBreakMode="WordWrap"/>
+		<WebView></WebView>
 	</VerticalStackLayout>
 </ContentPage>

@@ -3,10 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Random_Generator.密码"
              Title="密码">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+	<VerticalStackLayout>
+		<HorizontalStackLayout>
+			<CheckBox x:Name="数字" CheckedChanged="数字_CheckedChanged"/>
+			<Label Text="0-9" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="小写字母" CheckedChanged="小写字母_CheckedChanged"/>
+			<Label Text="a-z" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="大写字母" CheckedChanged="大写字母_CheckedChanged"/>
+			<Label Text="A-Z" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<CheckBox x:Name="其它字符CheckBox" Grid.Column="0" CheckedChanged="其它字符CheckBox_CheckedChanged"/>
+			<Entry x:Name="其它字符Entry" Grid.Column="1" Placeholder="其它字符" ClearButtonVisibility="WhileEditing" IsTextPredictionEnabled="True" BindingContext="{x:Reference 其它字符CheckBox}" IsEnabled="{Binding Mode=OneWay,Path=IsChecked}"/>
+		</Grid>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<CheckBox x:Name="每种字符至少一个" Grid.Column="0" CheckedChanged="每种字符至少一个_CheckedChanged"/>
+			<Label Text="每种字符至少一个" VerticalTextAlignment="Center" Grid.Column="1"/>
+			<Entry x:Name="密码长度" Grid.Column="2" Placeholder="密码长度" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
+			<Button x:Name="生成" Text="生成" Grid.Column="3" Clicked="生成_Clicked"/>
+		</Grid>
+		<HorizontalStackLayout>
+			<Button x:Name="复制到剪贴板" Text="复制到剪贴板" Clicked="复制到剪贴板_Clicked"/>
+			<Button x:Name="清除记录" Text="清除记录" Clicked="清除记录_Clicked"/>
+			<CheckBox x:Name="自动清除记录" CheckedChanged="自动清除记录_CheckedChanged"/>
+			<Label Text="自动清除记录" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+		<Label x:Name="生成结果" LineBreakMode="WordWrap"/>
+	</VerticalStackLayout>
 </ContentPage>
