@@ -1,11 +1,12 @@
 namespace Random_Generator;
 using static Preferences;
 using static MauiProgram;
-using System.Text;
 using MathNet.Numerics;
-public partial class 密码 : ContentPage
+using System.Web;
+
+public partial class RandomPassword : ContentPage
 {
-	public 密码()
+	public RandomPassword()
 	{
 		InitializeComponent();
 		数字.IsChecked = Default.Get("密码.数字", true);
@@ -16,7 +17,7 @@ public partial class 密码 : ContentPage
 		每种字符至少一个.IsChecked = Default.Get("密码.每种字符至少一个", true);
 		密码长度.Text = Default.Get("密码.密码长度", "");
 		自动清除记录.IsChecked = Default.Get("密码.自动清除记录", true);
-		生成结果.Text = Default.Get("密码.生成结果", "");
+		生成结果.Html = Default.Get("密码.生成结果", "");
 	}
 
 	private void 数字_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -51,12 +52,12 @@ public partial class 密码 : ContentPage
 
 	private void 复制到剪贴板_Clicked(object sender, EventArgs e)
 	{
-		Clipboard.SetTextAsync(生成结果.Text);
+		Clipboard.SetTextAsync(HttpUtility.HtmlDecode(生成结果.Html.Replace("<br/>", Environment.NewLine)));
 	}
 
 	private void 清除记录_Clicked(object sender, EventArgs e)
 	{
-		生成结果.Text = "";
+		生成结果.Html = "";
 		Default.Set("密码.生成结果", "");
 	}
 
@@ -92,9 +93,9 @@ public partial class 密码 : ContentPage
 			生成结果string = ex.Message;
 		}
 		if (自动清除记录.IsChecked)
-			生成结果.Text = 生成结果string;
+			生成结果.Html = HttpUtility.HtmlEncode(生成结果string);
 		else
-			生成结果.Text += "【" + DateTime.Now.ToString() + "】" + 生成结果string + Environment.NewLine;
-		Default.Set("密码.生成结果", 生成结果.Text);
+			生成结果.Html += HttpUtility.HtmlEncode("【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string) + "<br/>";
+		Default.Set("密码.生成结果", 生成结果.Html);
 	}
 }

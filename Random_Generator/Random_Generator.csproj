@@ -53,10 +53,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="密码.xaml">
+	  <Compile Update="RandomPassword.xaml.cs">
+	    <DependentUpon>RandomPassword.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="RandomNumber.xaml.cs">
+	    <DependentUpon>RandomNumber.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="RandomPassword.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="数值.xaml">
+	  <MauiXaml Update="RandomNumber.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

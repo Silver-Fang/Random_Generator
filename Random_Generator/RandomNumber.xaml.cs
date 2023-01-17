@@ -3,9 +3,11 @@ using static Preferences;
 using MathNet.Numerics.Distributions;
 using System.Numerics;
 using static MauiProgram;
-public partial class 数值 : ContentPage
+using System.Web;
+
+public partial class RandomNumber: ContentPage
 {
-	public 数值()
+	public RandomNumber()
 	{
 		InitializeComponent();
 		最小值.Text = Default.Get("数值.最小值", "");
@@ -17,7 +19,7 @@ public partial class 数值 : ContentPage
 		标准差Entry.Text = Default.Get("数值.标准差", "");
 		无重复.IsChecked = Default.Get("数值.无重复", false);
 		生成个数.Text = Default.Get("数值.生成个数", "");
-		生成结果.Text = Default.Get("数值.生成结果", "");
+		生成结果.Html = Default.Get("数值.生成结果", "");
 		自动清除记录.IsChecked = Default.Get("数值.自动清除记录", true);
 	}
 	private static string 枚举随机数<T>(IEnumerable<T> 枚举器)
@@ -114,10 +116,10 @@ public partial class 数值 : ContentPage
 			生成结果string = ex.Message;
 		}
 		if (自动清除记录.IsChecked)
-			生成结果.Text = 生成结果string;
+			生成结果.Html = HttpUtility.HtmlEncode(生成结果string);
 		else
-			生成结果.Text += "【" + DateTime.Now.ToString() + "】" + 生成结果string + Environment.NewLine;
-		Default.Set("数值.生成结果", 生成结果.Text);
+			生成结果.Html += HttpUtility.HtmlEncode("【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string) + "<br/>";
+		Default.Set("数值.生成结果", 生成结果.Html);
 	}
 
 	private void 无重复_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -147,12 +149,12 @@ public partial class 数值 : ContentPage
 
 	private void 复制到剪贴板_Clicked(object sender, EventArgs e)
 	{
-		Clipboard.SetTextAsync(生成结果.Text);
+		Clipboard.SetTextAsync(HttpUtility.HtmlDecode(生成结果.Html.Replace("<br/>",Environment.NewLine)));
 	}
 
 	private void 清除记录_Clicked(object sender, EventArgs e)
 	{
-		生成结果.Text = "";
+		生成结果.Html = "";
 		Default.Set("数值.生成结果", "");
 	}
 
