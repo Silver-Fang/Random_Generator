@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using MathNet.Numerics;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 public partial class RandomChinese : ContentPage
 {
@@ -74,7 +73,7 @@ public partial class RandomChinese : ContentPage
 	private async void 生成_Clicked(object sender, EventArgs e)
 	{
 		string 生成结果string;
-		uint 总字节数 = 0;
+		int 总字节数 = 0;
 		try
 		{
 			int 生成个数int = (int)数值解析<uint>(生成个数);
@@ -86,16 +85,16 @@ public partial class RandomChinese : ContentPage
 					MemoryStream 文件 = await a.Value.流.Value;
 					文件.Position = 0;
 					收集字符集.Add(文件);
-					总字节数 += (uint)文件.Length;
+					总字节数 += (int)文件.Length;
 				}
 			uint[] 所有字符uint = new uint[总字节数 / 4];
 			总字节数 = 0;
 			foreach (MemoryStream a in 收集字符集)
 			{
-				a.Read(MemoryMarshal.AsBytes(所有字符uint.AsSpan((int)总字节数 / 4)));
-				总字节数 += (uint)a.Length;
+				a.Read(MemoryMarshal.AsBytes(所有字符uint.AsSpan(总字节数 / 4)));
+				总字节数 += (int)a.Length;
 			}
-			生成结果string = Encoding.UTF32.GetString(MemoryMarshal.AsBytes((无重复.IsChecked ? Combinatorics.SelectVariation(所有字符uint.Distinct(), 生成个数int) : Combinatorics.SelectVariationWithRepetition(所有字符uint, 生成个数int)).ToArray().AsSpan()));
+			生成结果string = Encoding.UTF32.GetString(MemoryMarshal.AsBytes((无重复.IsChecked ? 所有字符uint.Distinct().SelectVariation(生成个数int) : 所有字符uint.SelectVariationWithRepetition(生成个数int)).ToArray().AsSpan()));
 		}
 		catch(ArgumentOutOfRangeException ex)
 		{
