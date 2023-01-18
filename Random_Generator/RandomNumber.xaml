@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Random_Generator.RandomNumber"
-             Title="数值">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Random_Generator.RandomNumber"
+			 Title="数值">
 	<ContentPage.Resources>
 		<HtmlWebViewSource x:Key="生成结果" x:Name="生成结果"/>
 	</ContentPage.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
+	<Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
 		<WebView Grid.Row="4" Source="{StaticResource 生成结果}"/>
-		<Grid Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
+		<Grid Grid.Row="0" ColumnDefinitions="*,*">
 			<Entry x:Name="最小值" Grid.Column="0" Placeholder="最小值" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
 			<Entry x:Name="最大值" Grid.Column="1" Placeholder="最大值" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
 		</Grid>
-		<Grid Grid.Row="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
+		<Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
 			<CheckBox x:Name="浮点" CheckedChanged="浮点_CheckedChanged" Grid.Column="0"/>
 			<Label Text="浮点" VerticalTextAlignment="Center" Grid.Column="1"/>
 			<CheckBox x:Name="平均值CheckBox" CheckedChanged="平均值CheckBox_CheckedChanged" Grid.Column="2"/>
@@ -39,13 +20,7 @@
 			<CheckBox x:Name="标准差CheckBox" CheckedChanged="标准差CheckBox_CheckedChanged" Grid.Column="4"/>
 			<Entry x:Name="标准差Entry" Placeholder="标准差" BindingContext="{x:Reference 标准差CheckBox}" IsEnabled="{Binding Mode=OneWay,Path=IsChecked}" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True" Grid.Column="5"/>
 		</Grid>
-		<Grid Grid.Row="2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
+		<Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,*,Auto">
 			<CheckBox x:Name="无重复" CheckedChanged="无重复_CheckedChanged" Grid.Column="0"/>
 			<Label Text="无重复" VerticalTextAlignment="Center" Grid.Column="1"/>
 			<Entry x:Name="生成个数" Placeholder="生成个数" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True" Grid.Column="2"/>

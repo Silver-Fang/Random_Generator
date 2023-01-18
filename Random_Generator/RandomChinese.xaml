@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Random_Generator.RandomChinese"
+			 Title="汉字">
+	<ContentPage.Resources>
+		<HtmlWebViewSource x:Key="生成结果" x:Name="生成结果"/>
+	</ContentPage.Resources>
+	<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+		<WebView Grid.Row="5" Source="{StaticResource 生成结果}"/>
+		<HorizontalStackLayout Grid.Row="0">
+			<CheckBox x:Name="一级规范字" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="一级规范字" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="二级规范字" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="二级规范字" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="三级规范字" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="三级规范字" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+		<HorizontalStackLayout Grid.Row="1">
+			<CheckBox x:Name="中日韩统一表意文字" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="中日韩统一表意文字" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+		<HorizontalStackLayout Grid.Row="2">
+			<CheckBox x:Name="扩展A" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="扩展A" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="扩展B" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="扩展B" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="扩展C" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="扩展C" VerticalTextAlignment="Center"/>
+			<CheckBox x:Name="扩展D" CheckedChanged="字符集_CheckedChanged"/>
+			<Label Text="扩展D" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+		<Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,*,Auto">
+			<CheckBox x:Name="无重复" CheckedChanged="无重复_CheckedChanged" Grid.Column="0"/>
+			<Label Text="无重复" VerticalTextAlignment="Center" Grid.Column="1"/>
+			<Entry x:Name="生成个数" Placeholder="生成个数" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True" Grid.Column="2"/>
+			<Button x:Name="生成" Text="生成" Clicked="生成_Clicked" Grid.Column="3"/>
+		</Grid>
+		<HorizontalStackLayout Grid.Row="4">
+			<Button x:Name="复制到剪贴板" Text="复制到剪贴板" Clicked="复制到剪贴板_Clicked"/>
+			<Button x:Name="清除记录" Text="清除记录" Clicked="清除记录_Clicked"/>
+			<CheckBox x:Name="自动清除记录" CheckedChanged="自动清除记录_CheckedChanged"/>
+			<Label Text="自动清除记录" VerticalTextAlignment="Center"/>
+		</HorizontalStackLayout>
+	</Grid>
+</ContentPage>

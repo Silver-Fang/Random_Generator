@@ -6,48 +6,26 @@ using System.Web;
 
 public partial class RandomPassword : ContentPage
 {
+	private Dictionary<CheckBox, string> CheckBox名称 = new();
 	public RandomPassword()
 	{
 		InitializeComponent();
-		数字.IsChecked = Default.Get("密码.数字", true);
-		小写字母.IsChecked = Default.Get("密码.小写字母", true);
-		大写字母.IsChecked = Default.Get("密码.大写字母", true);
-		其它字符CheckBox.IsChecked = Default.Get("密码.其它字符CheckBox", true);
 		其它字符Entry.Text = Default.Get("密码.其它字符", "~!@#$%^&*()_+`-={}|[]\\:\";'<>?,./");
-		每种字符至少一个.IsChecked = Default.Get("密码.每种字符至少一个", true);
 		密码长度.Text = Default.Get("密码.密码长度", "");
-		自动清除记录.IsChecked = Default.Get("密码.自动清除记录", true);
 		生成结果.Html = Default.Get("密码.生成结果", "");
+		CheckBox名称[数字] = "密码.数字";
+		CheckBox名称[小写字母] = "密码.小写字母";
+		CheckBox名称[大写字母] = "密码.大写字母";
+		CheckBox名称[其它字符CheckBox] = "密码.其它字符CheckBox";
+		CheckBox名称[每种字符至少一个] = "密码.每种字符至少一个";
+		CheckBox名称[自动清除记录] = "密码.自动清除记录";
+		foreach (KeyValuePair<CheckBox, string> a in CheckBox名称)
+			a.Key.IsChecked = Default.Get(a.Value, true);
 	}
 
-	private void 数字_CheckedChanged(object sender, CheckedChangedEventArgs e)
+	private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
 	{
-		Default.Set("密码.数字", 数字.IsChecked);
-	}
-
-	private void 小写字母_CheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-		Default.Set("密码.小写字母", 小写字母.IsChecked);
-	}
-
-	private void 大写字母_CheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-		Default.Set("密码.大写字母", 大写字母.IsChecked);
-	}
-
-	private void 其它字符CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-		Default.Set("密码.其它字符CheckBox", 其它字符CheckBox.IsChecked);
-	}
-
-	private void 每种字符至少一个_CheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-		Default.Set("密码.每种字符至少一个", 每种字符至少一个.IsChecked);
-	}
-
-	private void 自动清除记录_CheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-		Default.Set("密码.自动清除记录", 自动清除记录.IsChecked);
+		Default.Set(CheckBox名称[(CheckBox)sender], ((CheckBox)sender).IsChecked);
 	}
 
 	private void 复制到剪贴板_Clicked(object sender, EventArgs e)
@@ -87,6 +65,13 @@ public partial class RandomPassword : ContentPage
 			}
 			生成结果string = new string(Combinatorics.SelectPermutation(生成密码.Take(最小长度).Concat(Combinatorics.SelectVariationWithRepetition((数字.IsChecked ? 所有数字 : "") + (小写字母.IsChecked ? 所有小写 : "") + (大写字母.IsChecked ? 所有大写 : "") + (其它字符CheckBox.IsChecked ? 其它字符Entry.Text : ""), 密码长度byte - 最小长度))).ToArray());
 
+		}
+		catch(ArgumentException ex)
+		{
+			if (数字.IsChecked || 小写字母.IsChecked || 大写字母.IsChecked || 其它字符CheckBox.IsChecked)
+				生成结果string = ex.Message;
+			else
+				生成结果string = "没有选择任何字符集";
 		}
 		catch(Exception ex) 
 		{

@@ -6,4 +6,5 @@
 	xmlns:local="clr-namespace:Random_Generator" Navigated="Shell_Navigated">
 	<ShellContent Title="数值" ContentTemplate="{DataTemplate local:RandomNumber}" Route="RandomNumber" Icon="number.png"/>
 	<ShellContent Title="密码" ContentTemplate="{DataTemplate local:RandomPassword}" Route="RandomPassword" Icon="password.png"/>
+	<ShellContent Title="汉字" ContentTemplate="{DataTemplate local:RandomChinese}" Route="RandomChinese" Icon="chinese.png"/>
 </Shell>

@@ -37,7 +37,7 @@ public static class MauiProgram
 	{
 		return 特化器<T>.Parse(值);
 	}
-	//返回解析是否失败
+	//根据条目的Placeholder自动完成保存
 	internal static T 数值解析<T>(Entry 条目)
 	{
 		T 返回值;
