@@ -7,12 +7,12 @@ using System.Web;
 public partial class RandomPassword : ContentPage
 {
 	private Dictionary<CheckBox, string> CheckBox名称 = new();
+	string 记录文本;
 	public RandomPassword()
 	{
 		InitializeComponent();
 		其它字符Entry.Text = Default.Get("密码.其它字符", "~!@#$%^&*()_+`-={}|[]\\:\";'<>?,./");
 		密码长度.Text = Default.Get("密码.密码长度", "");
-		生成结果.Html = Default.Get("密码.生成结果", "");
 		CheckBox名称[数字] = "密码.数字";
 		CheckBox名称[小写字母] = "密码.小写字母";
 		CheckBox名称[大写字母] = "密码.大写字母";
@@ -21,6 +21,7 @@ public partial class RandomPassword : ContentPage
 		CheckBox名称[自动清除记录] = "密码.自动清除记录";
 		foreach (KeyValuePair<CheckBox, string> a in CheckBox名称)
 			a.Key.IsChecked = Default.Get(a.Value, true);
+		生成结果.Html = (记录文本 = Default.Get("密码.记录文本", "")).HtmlPre();
 	}
 
 	private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -30,13 +31,12 @@ public partial class RandomPassword : ContentPage
 
 	private void 复制到剪贴板_Clicked(object sender, EventArgs e)
 	{
-		Clipboard.SetTextAsync(HttpUtility.HtmlDecode(生成结果.Html.Replace("<br/>", Environment.NewLine)));
+		Clipboard.SetTextAsync(记录文本);
 	}
 
 	private void 清除记录_Clicked(object sender, EventArgs e)
 	{
-		生成结果.Html = "";
-		Default.Set("密码.生成结果", "");
+		Default.Set("密码.记录文本", 生成结果.Html = 记录文本 = "");
 	}
 
 	private void 生成_Clicked(object sender, EventArgs e)
@@ -81,9 +81,10 @@ public partial class RandomPassword : ContentPage
 			生成结果string = ex.Message;
 		}
 		if (自动清除记录.IsChecked)
-			生成结果.Html = HttpUtility.HtmlEncode(生成结果string);
+			记录文本 = 生成结果string;
 		else
-			生成结果.Html += HttpUtility.HtmlEncode("【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string) + "<br/>";
-		Default.Set("密码.生成结果", 生成结果.Html);
+			记录文本 += "【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string + Environment.NewLine;
+		生成结果.Html = 记录文本.HtmlPre();
+		Default.Set("密码.记录文本", 记录文本);
 	}
 }

@@ -8,4 +8,5 @@
 	<ShellContent Title="密码" ContentTemplate="{DataTemplate local:RandomPassword}" Route="RandomPassword" Icon="password.png"/>
 	<ShellContent Title="汉字" ContentTemplate="{DataTemplate local:RandomChinese}" Route="RandomChinese" Icon="chinese.png"/>
 	<ShellContent Title="乱序" ContentTemplate="{DataTemplate local:RandomShuffle}" Route="RandomShuffle" Icon="shuffle.png"/>
+	<ShellContent Title="帮助和关于" ContentTemplate="{DataTemplate local:HelpAbout}" Route="HelpAbout" Icon="help.png"/>
 </Shell>

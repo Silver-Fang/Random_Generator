@@ -5,11 +5,11 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
-		CurrentItem = Items[Preferences.Default.Get("首页", 0)];
+		GoToAsync(Preferences.Default.Get("首页", "RandomNumber"));
 	}
 
 	private void Shell_Navigated(object sender, ShellNavigatedEventArgs e)
 	{
-		Preferences.Default.Set("首页", Items.IndexOf(CurrentItem));
+		Preferences.Default.Set("首页", e.Current.Location.OriginalString);
 	}
 }

@@ -1,6 +1,5 @@
 namespace Random_Generator;
 using static Preferences;
-using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using System.Numerics;
@@ -9,6 +8,7 @@ using System.Web;
 
 public partial class RandomNumber: ContentPage
 {
+	string 记录文本;
 	public RandomNumber()
 	{
 		InitializeComponent();
@@ -21,8 +21,8 @@ public partial class RandomNumber: ContentPage
 		标准差Entry.Text = Default.Get("数值.标准差", "");
 		无重复.IsChecked = Default.Get("数值.无重复", false);
 		生成个数.Text = Default.Get("数值.生成个数", "");
-		生成结果.Html = Default.Get("数值.生成结果", "");
 		自动清除记录.IsChecked = Default.Get("数值.自动清除记录", true);
+		生成结果.Html = (记录文本 = Default.Get("数值.记录文本", "")).HtmlPre();
 	}
 	private static string 枚举随机数<T>(IEnumerable<T> 枚举器)
 	{
@@ -90,7 +90,7 @@ public partial class RandomNumber: ContentPage
 					{
 						int 生成个数int = (int)数值解析<uint>(生成个数);
 						if (无重复.IsChecked)
-							整数值 = from int a in Combinatorics.GenerateVariation(最大值int - 最小值int + 1, 生成个数int) select a + 最小值int;
+							整数值 = from int a in MathNet.Numerics.Combinatorics.GenerateVariation(最大值int - 最小值int + 1, 生成个数int) select a + 最小值int;
 						else
 							整数值 = 随机生成器.NextInt32Sequence(最小值int, 最大值int + 1).Take(生成个数int);
 					}
@@ -105,7 +105,7 @@ public partial class RandomNumber: ContentPage
 					{
 						int 生成个数int = (int)数值解析<uint>(生成个数);
 						if (无重复.IsChecked)
-							整数值 = from BigInteger a in Combinatorics.GenerateVariation(最大值BigInteger - 最小值BigInteger + 1, 生成个数int) select a + 最小值BigInteger;
+							整数值 = from BigInteger a in MathNet.Numerics.Combinatorics.GenerateVariation(最大值BigInteger - 最小值BigInteger + 1, 生成个数int) select a + 最小值BigInteger;
 						else
 							整数值 = 随机生成器.NextBigIntegerSequence(最小值BigInteger, 最大值BigInteger + 1).Take(生成个数int);
 					}
@@ -118,10 +118,11 @@ public partial class RandomNumber: ContentPage
 			生成结果string = ex.Message;
 		}
 		if (自动清除记录.IsChecked)
-			生成结果.Html = HttpUtility.HtmlEncode(生成结果string);
+			记录文本 = 生成结果string;
 		else
-			生成结果.Html += HttpUtility.HtmlEncode("【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string) + "<br/>";
-		Default.Set("数值.生成结果", 生成结果.Html);
+			记录文本 += "【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string + Environment.NewLine;
+		生成结果.Html = 记录文本.HtmlPre();
+		Default.Set("数值.记录文本", 记录文本);
 	}
 
 	private void 无重复_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -151,13 +152,12 @@ public partial class RandomNumber: ContentPage
 
 	private void 复制到剪贴板_Clicked(object sender, EventArgs e)
 	{
-		Clipboard.SetTextAsync(HttpUtility.HtmlDecode(生成结果.Html.Replace("<br/>",Environment.NewLine)));
+		Clipboard.SetTextAsync(记录文本);
 	}
 
 	private void 清除记录_Clicked(object sender, EventArgs e)
 	{
-		生成结果.Html = "";
-		Default.Set("数值.生成结果", "");
+		Default.Set("数值.记录文本", 生成结果.Html = 记录文本 = "");
 	}
 
 	private void 自动清除记录_CheckedChanged(object sender, CheckedChangedEventArgs e)

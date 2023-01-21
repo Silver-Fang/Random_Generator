@@ -8,11 +8,11 @@
 	</ContentPage.Resources>
 	<Grid RowDefinitions="*,Auto,Auto,*">
 		<WebView Grid.Row="3" Source="{StaticResource 生成结果}"/>
-		<Editor x:Name="输入字符串" Placeholder="输入字符串" IsTextPredictionEnabled="True" Grid.Row="0" />
+		<Editor x:Name="输入字符串" Placeholder="输入字符串" IsTextPredictionEnabled="True" Grid.Row="0" AutoSize="TextChanges"/>
 		<Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,*,Auto">
 			<CheckBox x:Name="保留首尾字符" Grid.Column="0" CheckedChanged="保留首尾字符_CheckedChanged"/>
 			<Label Text="保留首尾字符" VerticalTextAlignment="Center" Grid.Column="1"/>
-			<Entry x:Name="分隔符" Placeholder="分隔符" ClearButtonVisibility="WhileEditing" IsTextPredictionEnabled="True" Grid.Column="2"/>
+			<Editor x:Name="分隔符" Placeholder="分隔符" IsTextPredictionEnabled="True" Grid.Column="2"/>
 			<Button x:Name="生成" Text="生成" Grid.Column="3" Clicked="生成_Clicked"/>
 		</Grid>
 		<HorizontalStackLayout Grid.Row="2">

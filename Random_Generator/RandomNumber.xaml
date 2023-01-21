@@ -12,7 +12,7 @@
 			<Entry x:Name="最小值" Grid.Column="0" Placeholder="最小值" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
 			<Entry x:Name="最大值" Grid.Column="1" Placeholder="最大值" ClearButtonVisibility="WhileEditing" Keyboard="Numeric" IsTextPredictionEnabled="True"/>
 		</Grid>
-		<Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+		<Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,*,Auto,*">
 			<CheckBox x:Name="浮点" CheckedChanged="浮点_CheckedChanged" Grid.Column="0"/>
 			<Label Text="浮点" VerticalTextAlignment="Center" Grid.Column="1"/>
 			<CheckBox x:Name="平均值CheckBox" CheckedChanged="平均值CheckBox_CheckedChanged" Grid.Column="2"/>

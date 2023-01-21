@@ -26,12 +26,12 @@ public partial class RandomChinese : ContentPage
 		}
 	}
 	private readonly Dictionary<CheckBox, 字符集信息> 字符集 = new();
+	string 记录文本;
 	public RandomChinese()
 	{
 		InitializeComponent();
 		无重复.IsChecked = Default.Get("汉字.无重复", false);
 		生成个数.Text = Default.Get("汉字.生成个数", "");
-		生成结果.Html = Default.Get("汉字.生成结果", "");
 		自动清除记录.IsChecked = Default.Get("汉字.自动清除记录", true);
 		字符集[一级规范字] = new 字符集信息("一级规范字");
 		字符集[二级规范字] = new 字符集信息("二级规范字");
@@ -43,6 +43,7 @@ public partial class RandomChinese : ContentPage
 		字符集[扩展D] = new 字符集信息("扩展D");
 		foreach (KeyValuePair<CheckBox, 字符集信息> a in 字符集)
 			a.Key.IsChecked = Default.Get("汉字." + a.Value.名称, false);
+		生成结果.Html = (记录文本 = Default.Get("汉字.记录文本", "")).HtmlPre();
 	}
 
 	private void 自动清除记录_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -52,13 +53,12 @@ public partial class RandomChinese : ContentPage
 
 	private void 复制到剪贴板_Clicked(object sender, EventArgs e)
 	{
-		Clipboard.SetTextAsync(HttpUtility.HtmlDecode(生成结果.Html.Replace("<br/>", Environment.NewLine)));
+		Clipboard.SetTextAsync(记录文本);
 	}
 
 	private void 清除记录_Clicked(object sender, EventArgs e)
 	{
-		生成结果.Html = "";
-		Default.Set("汉字.生成结果", "");
+		Default.Set("汉字.记录文本", 生成结果.Html = 记录文本 = "");
 	}
 
 	private void 无重复_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -108,9 +108,10 @@ public partial class RandomChinese : ContentPage
 			生成结果string = ex.Message;
 		}
 		if (自动清除记录.IsChecked)
-			生成结果.Html = HttpUtility.HtmlEncode(生成结果string);
+			记录文本 = 生成结果string;
 		else
-			生成结果.Html += HttpUtility.HtmlEncode("【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string) + "<br/>";
-		Default.Set("汉字.生成结果", 生成结果.Html);
+			记录文本 += "【" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "】" + 生成结果string + Environment.NewLine;
+		生成结果.Html = 记录文本.HtmlPre();
+		Default.Set("汉字.记录文本", 记录文本);
 	}
 }
