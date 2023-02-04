@@ -6,9 +6,9 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity Name="4264644686220.MAUI" Publisher="CN=埃博拉酱" Version="2.0.0.0" />
+  <Identity Name="4264644686220.MAUI" Publisher="CN=埃博拉酱" Version="2.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="785243e3-19b2-4f0a-8a19-9ff0bec60ea2" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="6643db21-f5c7-4817-97df-7a5ac7b0e548" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>随机生成器MAUI</DisplayName>
