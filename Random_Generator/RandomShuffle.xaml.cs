@@ -3,7 +3,6 @@ using static Preferences;
 using MathNet.Numerics;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 public partial class RandomShuffle : ContentPage
 {
